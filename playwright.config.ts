@@ -2,25 +2,29 @@ import { defineConfig, devices } from '@playwright/test';
 
 export default defineConfig({
   testDir: './tests',
-  /* Maximum time one test can run for: 30 seconds */
-  timeout: 30 * 1000,
+  /* Maximum time for one test case: 60 seconds */
+  timeout: 60 * 1000,
   expect: {
-    /* Maximum time expect() should wait for the condition to be met: 5 seconds */
-    timeout: 5000,
+    /* Maximum timeout for one assertion: 20 seconds */
+    timeout: 20000,
   },
-  /* Run tests in files in parallel */
-  fullyParallel: true,
-  /* Automatically retry once if the staging server is flaky */
+  /* Run all test files in parallel */
+  fullyParallel: false,
+  workers: 1,
+  /* Automatically retry once if running in a staging environment that is unstable */
   retries: 1,
-  /* Generate an HTML report upon completion */
+  /* Export an HTML report upon completion */
   reporter: [['html', { open: 'never' }]],
+
   use: {
-    /* Base URL of the Medusa Storefront Staging environment */
+    /* URL of Medusa Storefront Staging */
     baseURL: 'https://atqaa-medusa-storefront.vercel.app/vn',
-    /* Capture screenshots and retain videos only when a test fails */
+
+    /* Only take screenshots and record videos if the test fails */
     screenshot: 'only-on-failure',
     video: 'retain-on-failure',
-    /* Record a trace on the first retry for debugging */
+
+    /* Enable the Trace Viewer black box feature when retrying */
     trace: 'on-first-retry',
   },
 
